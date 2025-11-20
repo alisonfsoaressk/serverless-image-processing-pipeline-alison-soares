@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Lambda layer artifacts
+lambda_layer/python/
+lambda_layer/pillow-layer.zip
+
+# Node / others (se usar)
+node_modules/
