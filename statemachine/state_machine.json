@@ -1,0 +1,39 @@
+{
+  "Comment": "Serverless image resize workflow",
+  "StartAt": "ResizeImage",
+  "States": {
+    "ResizeImage": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:417107812444:function:alison-image-resizer",
+      "ResultPath": "$.resizeResult",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "FailState"
+        }
+      ],
+      "Next": "CheckStatus"
+    },
+    "CheckStatus": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.resizeResult.status",
+          "StringEquals": "SUCCESS",
+          "Next": "SuccessState"
+        }
+      ],
+      "Default": "FailState"
+    },
+    "SuccessState": {
+      "Type": "Succeed"
+    },
+    "FailState": {
+      "Type": "Fail",
+      "Cause": "Image resize failed"
+    }
+  }
+}
